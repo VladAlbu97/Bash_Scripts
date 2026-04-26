@@ -1,0 +1,23 @@
+#!/bin/bash
+
+
+#Since we are removing important files we first check if the user running the comand is root
+
+if [[ $EUID -ne 0 ]]; then
+	echo"ERROR: This script should only be run as root"
+	exit 1
+fi
+
+# We add all the files into an array using mapfile , the condition are to be older then 30 days and have .txt/.log
+mapfile -t files < <(find "/var/log" -type f -mtime +30 \( -name "*.txt" -o -name "*.log" \))
+
+
+#we are looping over the array , checking again if the file exitst ( for edge cases ) and removing them 
+for file in "${files[@]}"; do
+	if [[ -f "$file" ]]; then
+		echo "removing file $file"
+    rm "$file"
+fi
+done
+
+echo "Finished Cleanup"
