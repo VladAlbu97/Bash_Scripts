@@ -1,0 +1,1 @@
+sudo useradd -m username && echo username:TempPass123 | sudo chpasswd && sudo chage -d 0 username
