@@ -1,5 +1,22 @@
 #!/bin/bash
 #Initialize an empty array for username,group,description
+
+#Check if the user running the comand is root
+
+if [[ $EUID -ne 0 ]]; then
+	printf "\e[31mERROR:This script should only be run by root\e[0m\n"
+	exit 1
+fi
+
+#Check if the csv  exists :
+
+if [[ ! -f new_hires_dummy_data.csv ]]; then
+	printf "\e[33mWARNING:no user list found\e[0m\n"
+	exit 1
+fi
+
+
+#arrays for our data
 username=()
 description=()
 group=()
