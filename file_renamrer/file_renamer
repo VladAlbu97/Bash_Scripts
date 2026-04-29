@@ -1,0 +1,21 @@
+#!/bin/bash
+
+#Prompt the user to chose the directory he wants to nromalize
+read -p "What directory you want to normalize" target_dir
+
+# Check if it's actually a directory before doing anything
+if [[ ! -d "$target_dir" ]]; then
+    echo "Error: $target_dir is not a valid directory."
+    exit 1
+fi
+
+for file in *; do
+        #Checking if file exists and if it does it will remove the white spaces
+	if [[ -f "$file" && "$file" == *" "* ]]; then
+	new_name="${file// /}"
+	mv "$file" "$new_name"
+	echo "Normalized: $file -> $new_name"
+        fi
+done
+
+
