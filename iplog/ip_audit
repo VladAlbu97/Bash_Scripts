@@ -1,0 +1,33 @@
+#!/bin/bash
+
+ target_file=$1
+
+
+if [[ -z $target_file ]]; then
+	read -p "Please enter the file you want to read from" target_file
+fi
+
+
+check_ip(){ 
+	local file=$1
+          
+	if [[ ! -f "$file" ]]; then
+		echo "ERROR: File '$file' not found"
+		exit 1
+	else
+	       awk '{print $1}' "$file" | sort  | uniq -c | sort -nr | head -n 5
+
+        fi
+ 
+
+}
+
+check_ip "$target_file"
+
+
+
+
+
+
+
+
