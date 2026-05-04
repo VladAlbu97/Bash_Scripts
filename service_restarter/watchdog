@@ -1,0 +1,39 @@
+#!/bin/bash
+
+#We can call the script with an argument , if it is not provided the script will default to httpd
+process=${1:-httpd}
+
+check_service(){
+
+	local service=$1
+        
+
+
+	while true; do
+        local current_time=$(date '+%Y-%m-%d_%H-%M-%S')
+	if ! systemctl is-active -q "$service"; then
+		echo "Warning service is down! Attempting to restart..."
+		systemctl start "$service"
+                echo "Warning , the server is down." | mail -s "Critical" vlad.albu2000@gmail.com
+
+	 	sleep 5
+
+	else
+		echo "$service is running $current_time" >> log.txt
+		sleep 3600
+
+        fi
+
+	
+	
+	
+      done
+
+
+
+}
+
+check_service "$process"
+
+
+
